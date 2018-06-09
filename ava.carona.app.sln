@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ava.carona.app", "ava.carona.app\ava.carona.app.csproj", "{5665F358-CA2C-403B-BFF0-C98F8E1237F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ava.carona.app.test", "ava.carona.app.test\ava.carona.app.test.csproj", "{5635A9DB-69C6-49AB-BBC7-12EDBC6CD249}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5665F358-CA2C-403B-BFF0-C98F8E1237F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5665F358-CA2C-403B-BFF0-C98F8E1237F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5665F358-CA2C-403B-BFF0-C98F8E1237F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5665F358-CA2C-403B-BFF0-C98F8E1237F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5635A9DB-69C6-49AB-BBC7-12EDBC6CD249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5635A9DB-69C6-49AB-BBC7-12EDBC6CD249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5635A9DB-69C6-49AB-BBC7-12EDBC6CD249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5635A9DB-69C6-49AB-BBC7-12EDBC6CD249}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CFBC0C7-08EF-4C6D-863C-3E6304518C15}
+	EndGlobalSection
+EndGlobal
