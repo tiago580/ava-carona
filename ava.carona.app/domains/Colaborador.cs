@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ava.carona.app.domains
 {
@@ -44,5 +45,34 @@ namespace ava.carona.app.domains
         {
             this.EID = EID;
         }
+
+        public bool Equals(Colaborador obj)
+        {
+            VerificarArgumentoNulo(obj);
+
+            if (!(obj is Colaborador))
+            {
+                throw new TiposDiferentesException();
+            }
+
+            var _obj = obj as Colaborador;
+            if (this.Id == _obj.Id)
+            {
+                return true;
+            }
+            if (this.PID == _obj.Id && (this.PID > 0 && _obj.PID > 0))
+            {
+                return true;
+            }
+            if (this.EID == _obj.EID)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
+
     }
 }

@@ -31,5 +31,31 @@ namespace ava.carona.app.test
             carona.SolicitarCarona(caroneiro);
 
         }
+
+        [TestMethod]
+        public void PermitirCarona()
+        {
+            var caroneiro = new Colaborador();
+            var carona = new Carona();
+            carona.SolicitarCarona(caroneiro);
+            var esperado = StatusCarona.PERMITIDO;
+
+            var resultado = carona.PermitirCarona(caroneiro);
+
+            Assert.AreEqual(esperado, resultado);
+        }
+
+        [TestMethod]
+        public void NegarCarona()
+        {
+            var caroneiro = new Colaborador();
+            var carona = new Carona();
+            carona.SolicitarCarona(caroneiro);
+            var esperado = StatusCarona.NEGADO;
+
+            var resultado = carona.NegarCarona(caroneiro);
+
+            Assert.AreEqual(esperado, resultado);
+        }
     }
 }
