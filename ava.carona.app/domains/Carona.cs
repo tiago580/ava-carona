@@ -11,7 +11,7 @@ namespace ava.carona.app.domains
         PERMITIDO,
         NEGADO
     }
-    public class Carona : AEntidade
+    public class Carona : AEntidadeBloqueavel
     {
         private Colaborador _ofertante;
         public Colaborador Ofertante
@@ -82,6 +82,10 @@ namespace ava.carona.app.domains
         public void SolicitarCarona(Colaborador caroneiro)
         {
             VerificarArgumentoNulo(caroneiro);
+            if (EstaBloqueado())
+            {
+                throw new CaronaBloqueadaException();
+            }
             if (caroneiro.EstaBloqueado())
             {
                 throw new ColaboradorBloqueadoException("Colaborador sem permissão para solicitar carona.");

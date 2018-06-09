@@ -57,5 +57,16 @@ namespace ava.carona.app.test
 
             Assert.AreEqual(esperado, resultado);
         }
+        [TestMethod]
+        [ExpectedException(typeof(CaronaBloqueadaException))]
+        public void BloquearCarona()
+        {
+            var caroneiro = new Colaborador();
+            var carona = new Carona();
+            carona.Bloquear();
+
+            carona.SolicitarCarona(caroneiro);
+
+        }
     }
 }
