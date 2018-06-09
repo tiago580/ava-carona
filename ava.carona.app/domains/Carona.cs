@@ -13,6 +13,7 @@ namespace ava.carona.app.domains
     }
     public class Carona : AEntidadeBloqueavel
     {
+        private const string MSG_OFERTANTE_NAO_INFORMADO = "Ofertante da carona não informado.";
         private Colaborador _ofertante;
         public Colaborador Ofertante
         {
@@ -22,10 +23,7 @@ namespace ava.carona.app.domains
             }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("Ofertante da carona não informado.");
-                }
+                VerificarArgumentoNulo(value, MSG_OFERTANTE_NAO_INFORMADO);
 
                 if (value.EstaBloqueado())
                 {
@@ -34,6 +32,11 @@ namespace ava.carona.app.domains
 
                 _ofertante = value;
             }
+        }
+
+        private void verificarOfertante()
+        {
+            VerificarArgumentoNulo(_ofertante, MSG_OFERTANTE_NAO_INFORMADO);
         }
         public int VagasTotal { get; set; }
         public int VagasDisponiveis { get; set; }
@@ -44,18 +47,18 @@ namespace ava.carona.app.domains
         }
 
         public StatusCarona PermitirCarona(Colaborador caroneiro)
-        {
-            AlterarStatusCarona(caroneiro, StatusCarona.PERMITIDO);
-            return ObterPorCaroneiro(caroneiro).StatusCarona;
+        {   
+            return AlterarStatusCarona(caroneiro, StatusCarona.PERMITIDO);
         }
 
         public StatusCarona NegarCarona(Colaborador caroneiro)
         {
-            AlterarStatusCarona(caroneiro, StatusCarona.NEGADO);
-            return ObterPorCaroneiro(caroneiro).StatusCarona;
+            return AlterarStatusCarona(caroneiro, StatusCarona.NEGADO);
         }
         private StatusCarona AlterarStatusCarona(Colaborador caroneiro, StatusCarona status)
         {
+            verificarOfertante();
+
             VerificarArgumentoNulo(caroneiro);
 
             if (!ExisteCaroneiro(caroneiro))
@@ -74,6 +77,8 @@ namespace ava.carona.app.domains
         }
         public CaronaCaroneiro ObterPorCaroneiro(Colaborador caroneiro)
         {
+            verificarOfertante();
+
             VerificarArgumentoNulo(caroneiro);
             return Caroneiros.Where(cc => cc.Caroneiro.Equals(caroneiro)).FirstOrDefault();
         }
@@ -81,6 +86,7 @@ namespace ava.carona.app.domains
 
         public void SolicitarCarona(Colaborador caroneiro)
         {
+            verificarOfertante();
             VerificarArgumentoNulo(caroneiro);
             if (EstaBloqueado())
             {
@@ -89,6 +95,11 @@ namespace ava.carona.app.domains
             if (caroneiro.EstaBloqueado())
             {
                 throw new ColaboradorBloqueadoException("Colaborador sem permissão para solicitar carona.");
+            }
+
+            if (caroneiro.Equals(_ofertante))
+            {
+                throw new OfertanteComoCaroneiroException("Não é permitido o próprio ofertante ocupar vaga na própria carona.");
             }
 
             Caroneiros.Add(new CaronaCaroneiro(this, caroneiro));
@@ -101,6 +112,12 @@ namespace ava.carona.app.domains
 
         public Carona()
         {
+        }
+
+        public Carona(Colaborador ofertante)
+        {
+            VerificarArgumentoNulo(ofertante, MSG_OFERTANTE_NAO_INFORMADO);
+            _ofertante = ofertante;
         }
 
         public bool Equals(Carona obj)

@@ -7,19 +7,22 @@ namespace ava.carona.app.domains
     {
         const int LIMITE_MINIMO_CARACTERES_EID = 3;
         const int LIMITE_MAXIMO_CARACTERES_EID = 20;
+        private const string MSG_EID_NAO_INFORMADO = "EID não informado.";
+
         public int PID { get; set; }
 
         private string _EID;
         public string EID {
             get
             {
+                VerificarArgumentoNulo(_EID, MSG_EID_NAO_INFORMADO);
                 return _EID;
             }
             set
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("EID não informado.");
+                    throw new ArgumentNullException(MSG_EID_NAO_INFORMADO);
                 }
 
                 if (value.Length < LIMITE_MINIMO_CARACTERES_EID)
@@ -56,15 +59,15 @@ namespace ava.carona.app.domains
             }
 
             var _obj = obj as Colaborador;
-            if (this.Id == _obj.Id)
-            {
-                return true;
-            }
-            if (this.PID == _obj.Id && (this.PID > 0 && _obj.PID > 0))
-            {
-                return true;
-            }
             if (this.EID == _obj.EID)
+            {
+                return true;
+            }
+            if (this.Id == _obj.Id && (this.Id > 0 || obj.Id > 0))
+            {
+                return true;
+            }
+            if (this.PID == _obj.PID && (this.PID > 0 || obj.PID > 0))
             {
                 return true;
             }

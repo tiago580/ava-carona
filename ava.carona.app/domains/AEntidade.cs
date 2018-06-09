@@ -14,10 +14,14 @@ namespace ava.carona.app.domains
             CreatedAt = DateTime.Now;
         }
 
-        protected void VerificarArgumentoNulo(AEntidade entidade)
+        protected void VerificarArgumentoNulo(object entidade, string msg = null)
         {
             if (entidade == null)
             {
+                if (msg != null)
+                {
+                    throw new ArgumentNullException(msg);
+                }
                 throw new ArgumentNullException();
             }
         }
