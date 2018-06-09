@@ -2,7 +2,7 @@
 
 namespace ava.carona.app.domains
 {
-    public class Colaborador: AEntidade
+    public class Colaborador: AEntidadeBloqueavel
     {
         const int LIMITE_MINIMO_CARACTERES_EID = 3;
         const int LIMITE_MAXIMO_CARACTERES_EID = 20;
@@ -18,7 +18,7 @@ namespace ava.carona.app.domains
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentNullException("EID não informado.");
                 }
 
                 if (value.Length < LIMITE_MINIMO_CARACTERES_EID)
