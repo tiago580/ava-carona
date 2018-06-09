@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using ava.carona.app.helpers;
 
 namespace ava.carona.app.domains
 {
@@ -67,7 +67,7 @@ namespace ava.carona.app.domains
             }
             set
             {
-                VerificarArgumentoNulo(value, MSG_OFERTANTE_NAO_INFORMADO);
+                value.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
 
                 if (value.EstaBloqueado())
                 {
@@ -80,7 +80,7 @@ namespace ava.carona.app.domains
 
         private void verificarOfertante()
         {
-            VerificarArgumentoNulo(_ofertante, MSG_OFERTANTE_NAO_INFORMADO);
+            _ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
         }
         public bool ExisteCaroneiro(Colaborador caroneiro)
         {
@@ -104,7 +104,7 @@ namespace ava.carona.app.domains
         {
             verificarOfertante();
 
-            VerificarArgumentoNulo(caroneiro);
+            caroneiro.ValidarArgumentoNulo();
 
             if (!ExisteCaroneiro(caroneiro))
             {
@@ -124,7 +124,7 @@ namespace ava.carona.app.domains
         {
             verificarOfertante();
 
-            VerificarArgumentoNulo(caroneiro);
+            caroneiro.ValidarArgumentoNulo();
             return Caroneiros.Where(cc => cc.Caroneiro.Equals(caroneiro)).FirstOrDefault();
         }
 
@@ -132,7 +132,7 @@ namespace ava.carona.app.domains
         public void SolicitarCarona(Colaborador caroneiro)
         {
             verificarOfertante();
-            VerificarArgumentoNulo(caroneiro);
+            caroneiro.ValidarArgumentoNulo();
             if (EstaBloqueado())
             {
                 throw new CaronaBloqueadaException();
@@ -159,20 +159,20 @@ namespace ava.carona.app.domains
 
       
 
-        public Carona()
+        public Carona(): base()
         {
         }
 
-        public Carona(Colaborador ofertante, int vagas)
+        public Carona(Colaborador ofertante, int vagas): this()
         {
-            VerificarArgumentoNulo(ofertante, MSG_OFERTANTE_NAO_INFORMADO);
+            ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
             _ofertante = ofertante;
             VagasTotal = vagas;
         }
 
         public bool Equals(Carona obj)
         {
-            VerificarArgumentoNulo(obj);
+            obj.ValidarArgumentoNulo();
 
             if (!(obj is Carona))
             {

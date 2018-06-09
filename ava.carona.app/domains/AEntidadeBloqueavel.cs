@@ -6,6 +6,10 @@ namespace ava.carona.app.domains
 {
     public abstract class AEntidadeBloqueavel : AEntidade, IBloqueavel
     {
+        public AEntidadeBloqueavel(): base()
+        {
+
+        }
         private bool _Bloqueado;
         public void Bloquear()
         {

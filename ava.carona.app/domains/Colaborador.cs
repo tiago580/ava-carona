@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ava.carona.app.helpers;
+using System;
 using System.Collections.Generic;
 
 namespace ava.carona.app.domains
@@ -15,15 +16,12 @@ namespace ava.carona.app.domains
         public string EID {
             get
             {
-                VerificarArgumentoNulo(_EID, MSG_EID_NAO_INFORMADO);
+                _EID.ValidarEIDNaoInformado();
                 return _EID;
             }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(MSG_EID_NAO_INFORMADO);
-                }
+                value.ValidarEIDNaoInformado();
 
                 if (value.Length < LIMITE_MINIMO_CARACTERES_EID)
                 {
@@ -40,18 +38,18 @@ namespace ava.carona.app.domains
         }
         public string Nome { get; set; }
 
-        public Colaborador()
+        public Colaborador(): base()
         {
 
         }
-        public Colaborador(string EID)
+        public Colaborador(string EID): this()
         {
             this.EID = EID;
         }
 
-        public bool Equals(Colaborador obj)
+        public override bool Equals(object obj)
         {
-            VerificarArgumentoNulo(obj);
+            obj.ValidarArgumentoNulo();
 
             if (!(obj is Colaborador))
             {
@@ -63,11 +61,11 @@ namespace ava.carona.app.domains
             {
                 return true;
             }
-            if (this.Id == _obj.Id && (this.Id > 0 || obj.Id > 0))
+            if (this.Id == _obj.Id && (this.Id > 0 || _obj.Id > 0))
             {
                 return true;
             }
-            if (this.PID == _obj.PID && (this.PID > 0 || obj.PID > 0))
+            if (this.PID == _obj.PID && (this.PID > 0 || _obj.PID > 0))
             {
                 return true;
             }
@@ -76,6 +74,13 @@ namespace ava.carona.app.domains
 
         }
 
-
+        public override int GetHashCode()
+        {
+            var hashCode = 2044715075;
+            hashCode = hashCode * -1521134295 + PID.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_EID);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(EID);
+            return hashCode;
+        }
     }
 }
