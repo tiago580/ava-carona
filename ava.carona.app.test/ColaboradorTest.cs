@@ -1,3 +1,4 @@
+using ava.carona.app.domains;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ava.carona.app.test
@@ -6,8 +7,18 @@ namespace ava.carona.app.test
     public class ColaboradorTest
     {
         [TestMethod]
-        public void TestMethod1()
+        [ExpectedException(typeof(ColaboradorLimiteMinimoDeCaracteresNaoAtingidoException))]
+        public void LimiteMinimoDeCaracteresNaoAtingidoTest()
         {
+            var colaborador = new Colaborador();
+            colaborador.EID = "1";
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ColaboradorLimiteMaximoDeCaracteresExcedidoException))]
+        public void LimiteMaximoDeCaracteresExcedidoTest()
+        {
+            var colaborador = new Colaborador("012345678901234567890");
+            
         }
     }
 }
