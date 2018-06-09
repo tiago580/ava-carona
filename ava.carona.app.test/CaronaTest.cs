@@ -30,7 +30,7 @@ namespace ava.carona.app.test
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
             caroneiro.Bloquear();
-            var carona = new Carona(ofertante);
+            var carona = new Carona(ofertante, 1);
             carona.SolicitarCarona(caroneiro);
 
         }
@@ -40,7 +40,7 @@ namespace ava.carona.app.test
         {
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante);
+            var carona = new Carona(ofertante, 1);
             carona.SolicitarCarona(caroneiro);
             var esperado = StatusCarona.PERMITIDO;
 
@@ -54,7 +54,7 @@ namespace ava.carona.app.test
         {
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante);
+            var carona = new Carona(ofertante,1);
             carona.SolicitarCarona(caroneiro);
             var esperado = StatusCarona.NEGADO;
 
@@ -68,7 +68,7 @@ namespace ava.carona.app.test
         {
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante);
+            var carona = new Carona(ofertante, 1);
             carona.Bloquear();
 
             carona.SolicitarCarona(caroneiro);
@@ -80,9 +80,55 @@ namespace ava.carona.app.test
         public void BloquearCaronaOfertante()
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante);
+            var carona = new Carona(ofertante, 1);
 
             carona.SolicitarCarona(ofertante);
+
+        }
+        [TestMethod]
+        [ExpectedException(typeof(QuantidadeTotalDeVagasNaoPermitidoException))]
+        public void LimiteMaximoDeTotalVagasNaoPermitido()
+        {
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 7);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(QuantidadeTotalDeVagasNaoPermitidoException))]
+        public void LimiteMinimoDeTotalVagasNaoPermitido()
+        {
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CaroneiroJaInclusoNaCaronaException))]
+        public void CaroneiroJaInclusoNaCarona()
+        {
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 1);
+            var caroneiro = new Colaborador(EID_CARONEIRO);
+
+            carona.SolicitarCarona(caroneiro);
+            carona.SolicitarCarona(caroneiro);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NaoHaVagasDisponiveisException))]
+        public void NaoHaVagasDisponiveis()
+        {
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 1);
+            var caroneiro = new Colaborador(EID_CARONEIRO);
+            var caroneiro2 = new Colaborador("r.teste.com");
+            var caroneiro3 = new Colaborador("r.teste.com1");
+
+            carona.SolicitarCarona(caroneiro);
+            carona.SolicitarCarona(caroneiro2);
+            carona.SolicitarCarona(caroneiro3);
+
+            carona.PermitirCarona(caroneiro);
+            carona.PermitirCarona(caroneiro2);
+            carona.PermitirCarona(caroneiro3);
 
         }
     }

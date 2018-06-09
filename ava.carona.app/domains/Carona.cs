@@ -14,7 +14,51 @@ namespace ava.carona.app.domains
     public class Carona : AEntidadeBloqueavel
     {
         private const string MSG_OFERTANTE_NAO_INFORMADO = "Ofertante da carona não informado.";
+        private const int LIMITE_MAXIMO_DE_VAGAS = 6;
+        private const int LIMITE_MINIMO_DE_VAGAS = 1;
         private Colaborador _ofertante;
+        private int _vagas;
+        public Endereco Origem { get; set; }
+        public Endereco Destino { get; set; }
+        public IList<CaronaCaroneiro> Caroneiros { get; set; } = new List<CaronaCaroneiro>();
+
+
+        public int VagasTotal
+        {
+            get
+            {
+                return _vagas;
+            }
+
+            set
+            {
+                if (value > LIMITE_MAXIMO_DE_VAGAS)
+                {
+                    throw new QuantidadeTotalDeVagasNaoPermitidoException($"A quantidade máxima de vagas é {LIMITE_MAXIMO_DE_VAGAS}");
+                }
+                if (value < LIMITE_MINIMO_DE_VAGAS)
+                {
+                    throw new QuantidadeTotalDeVagasNaoPermitidoException($"A quantidade mínima de vagas é {LIMITE_MINIMO_DE_VAGAS}");
+                }
+
+                _vagas = value;
+            }
+        }
+        public int VagasDisponiveis
+        {
+            get
+            {
+                return VagasTotal - VagasOcupadas;
+            }
+        }
+        public int VagasOcupadas
+        {
+            get
+            {
+                return Caroneiros.Where(cc => cc.StatusCarona == StatusCarona.PERMITIDO).Count(); 
+            }
+        }
+
         public Colaborador Ofertante
         {
             get
@@ -38,16 +82,17 @@ namespace ava.carona.app.domains
         {
             VerificarArgumentoNulo(_ofertante, MSG_OFERTANTE_NAO_INFORMADO);
         }
-        public int VagasTotal { get; set; }
-        public int VagasDisponiveis { get; set; }
-        public int VagasOcupadas { get; set; }
         public bool ExisteCaroneiro(Colaborador caroneiro)
         {
             return ObterPorCaroneiro(caroneiro) != null;
         }
 
         public StatusCarona PermitirCarona(Colaborador caroneiro)
-        {   
+        {
+            if (VagasDisponiveis == 0)
+            {
+                throw new NaoHaVagasDisponiveisException();
+            }
             return AlterarStatusCarona(caroneiro, StatusCarona.PERMITIDO);
         }
 
@@ -102,22 +147,27 @@ namespace ava.carona.app.domains
                 throw new OfertanteComoCaroneiroException("Não é permitido o próprio ofertante ocupar vaga na própria carona.");
             }
 
+            if (ExisteCaroneiro(caroneiro))
+            {
+                throw new CaroneiroJaInclusoNaCaronaException();
+            }
+
+
+
             Caroneiros.Add(new CaronaCaroneiro(this, caroneiro));
         }
 
       
-        public Endereco Origem { get; set; }
-        public Endereco Destino { get; set; }
-        public IList<CaronaCaroneiro> Caroneiros { get; set; } = new List<CaronaCaroneiro>();
 
         public Carona()
         {
         }
 
-        public Carona(Colaborador ofertante)
+        public Carona(Colaborador ofertante, int vagas)
         {
             VerificarArgumentoNulo(ofertante, MSG_OFERTANTE_NAO_INFORMADO);
             _ofertante = ofertante;
+            VagasTotal = vagas;
         }
 
         public bool Equals(Carona obj)
