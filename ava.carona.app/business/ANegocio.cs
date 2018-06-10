@@ -17,21 +17,31 @@ namespace ava.carona.app.business
         public T Adicionar(T obj)
         {
             obj.ValidarArgumentoNulo();
-            if (!ExisteRegistro(obj))
+            if (ExisteRegistro(obj))
             {
-                _repositorio.Adicionar(obj);
+                throw new RegistroExistenteException();
             }
+            _repositorio.Adicionar(obj);
 
             return obj;
         }
 
         public T Atualizar(T obj)
         {
+            if (!ExisteRegistro(obj))
+            {
+                throw new RegistroNaoEncontradoException();
+            }
+
             return _repositorio.Atualizar(obj);
         }
 
         public int Deletar(T obj)
         {
+            if (!ExisteRegistro(obj))
+            {
+                throw new RegistroNaoEncontradoException();
+            }
             return _repositorio.Deletar(obj);
         }
 
@@ -54,6 +64,7 @@ namespace ava.carona.app.business
         public T Obter(Expression<Func<T, bool>> predicate)
         {
             predicate.ValidarArgumentoNulo();
+
             return _repositorio.Obter(predicate);
         }
 

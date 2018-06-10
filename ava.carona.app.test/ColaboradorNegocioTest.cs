@@ -22,7 +22,7 @@ namespace ava.carona.app.test
         {
             var colaborador = new Colaborador(EID_OFERTANTE);
             var colaborador2 = new Colaborador(EID_CARONEIRO);
-            var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
+            var negocio = new ColaboradorNegocioIM(new ColaboradorRepositorioIM());
             var esperado = 2;
 
             negocio.Adicionar(colaborador);
@@ -37,7 +37,7 @@ namespace ava.carona.app.test
         {
             var colaborador = new Colaborador(EID_OFERTANTE);
             var colaborador2 = new Colaborador(EID_CARONEIRO);
-            var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
+            var negocio = new ColaboradorNegocioIM(new ColaboradorRepositorioIM());
             var esperado = new Colaborador(EID_CARONEIRO);
 
             negocio.Adicionar(colaborador);
@@ -51,7 +51,7 @@ namespace ava.carona.app.test
         {
             var colaborador = new Colaborador(EID_OFERTANTE);
             var colaborador2 = new Colaborador(EID_CARONEIRO);
-            var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
+            var negocio = new ColaboradorNegocioIM(new ColaboradorRepositorioIM());
             var esperado = new Colaborador(EID_CARONEIRO);
 
             negocio.Adicionar(colaborador);
@@ -66,7 +66,7 @@ namespace ava.carona.app.test
         {
             var colaborador = new Colaborador(EID_OFERTANTE);
             var colaborador2 = new Colaborador(EID_CARONEIRO);
-            var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
+            var negocio = new ColaboradorNegocioIM(new ColaboradorRepositorioIM());
             var esperado = new Colaborador(EID_CARONEIRO);
 
             negocio.Adicionar(colaborador);
@@ -81,7 +81,7 @@ namespace ava.carona.app.test
         {
             var colaborador = new Colaborador(EID_OFERTANTE) { PID = PID_OFERTANTE};
             var colaborador2 = new Colaborador(EID_CARONEIRO) { PID = PID_CARONEIRO};
-            var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
+            var negocio = new ColaboradorNegocioIM(new ColaboradorRepositorioIM());
             var esperado = new Colaborador(EID_CARONEIRO);
 
             negocio.Adicionar(colaborador);
@@ -96,7 +96,7 @@ namespace ava.carona.app.test
         {
             var colaborador = new Colaborador(EID_OFERTANTE) { PID = PID_OFERTANTE};
             var colaborador2 = new Colaborador(EID_CARONEIRO) { PID = PID_CARONEIRO};
-            var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
+            var negocio = new ColaboradorNegocioIM(new ColaboradorRepositorioIM());
             var esperado = 2;
 
             negocio.Adicionar(colaborador);

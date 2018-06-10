@@ -61,11 +61,11 @@ namespace ava.carona.app.domains
             {
                 return true;
             }
-            if (this.Id == _obj.Id && (this.Id > 0 || _obj.Id > 0))
+            if (this.Id == _obj.Id && (this.Id > 0 && _obj.Id > 0))
             {
                 return true;
             }
-            if (this.PID == _obj.PID && (this.PID > 0 || _obj.PID > 0))
+            if (this.PID == _obj.PID && (this.PID > 0 && _obj.PID > 0))
             {
                 return true;
             }
