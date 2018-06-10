@@ -9,7 +9,7 @@ namespace ava.carona.app.domains
         const int LIMITE_MINIMO_CARACTERES_EID = 3;
         const int LIMITE_MAXIMO_CARACTERES_EID = 20;
         private const string MSG_EID_NAO_INFORMADO = "EID não informado.";
-
+        public IList<CaronaCaroneiro> Caronas { get; set; } = new List<CaronaCaroneiro>();
         public int PID { get; set; }
 
         private string _EID;

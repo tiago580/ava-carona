@@ -14,12 +14,44 @@ namespace ava.carona.app.domains
     public class Carona : AEntidadeBloqueavel
     {
         private const string MSG_OFERTANTE_NAO_INFORMADO = "Ofertante da carona não informado.";
+        private const string MSG_ENDERECO_ORIGEM_NAO_INFORMADO = "Endereço de origem não informado.";
+        private const string MSG_ENDERECO_DESTINO_NAO_INFORMADO = "Endereço de destino não informado.";
         private const int LIMITE_MAXIMO_DE_VAGAS = 6;
         private const int LIMITE_MINIMO_DE_VAGAS = 1;
         private Colaborador _ofertante;
         private int _vagas;
-        public Endereco Origem { get; set; }
-        public Endereco Destino { get; set; }
+        private Endereco _origem;
+        public Endereco Origem
+        { 
+            get
+            {
+                _origem.ValidarArgumentoNulo();
+                return _origem;
+            }
+
+            set
+            {
+                value.ValidarArgumentoNulo(MSG_ENDERECO_ORIGEM_NAO_INFORMADO);
+                _origem = value;
+            }
+        }
+
+        private Endereco _destino;
+        public Endereco Destino
+        {
+            get
+            {
+                _destino.ValidarArgumentoNulo();
+                return _origem;
+            }
+
+            set
+            {
+                value.ValidarArgumentoNulo(MSG_ENDERECO_DESTINO_NAO_INFORMADO);
+                _destino = value;
+            }
+        }
+
         public IList<CaronaCaroneiro> Caroneiros { get; set; } = new List<CaronaCaroneiro>();
 
 
@@ -63,6 +95,7 @@ namespace ava.carona.app.domains
         {
             get
             {
+                _ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
                 return _ofertante;
             }
             set
@@ -163,11 +196,15 @@ namespace ava.carona.app.domains
         {
         }
 
-        public Carona(Colaborador ofertante, int vagas): this()
+        public Carona(Colaborador ofertante, int vagas, Endereco origem, Endereco destino): this()
         {
-            ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
-            _ofertante = ofertante;
+            Ofertante = ofertante;
             VagasTotal = vagas;
+            Origem = origem;
+            Destino = destino;
+
+            Origem.Carona = this;
+            Destino.Carona = this;
         }
 
         public bool Equals(Carona obj)

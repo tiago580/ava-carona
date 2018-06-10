@@ -30,7 +30,7 @@ namespace ava.carona.app.test
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
             caroneiro.Bloquear();
-            var carona = new Carona(ofertante, 1);
+            var carona = new Carona(ofertante, 1, new Endereco(), new Endereco());
             carona.SolicitarCarona(caroneiro);
 
         }
@@ -40,7 +40,7 @@ namespace ava.carona.app.test
         {
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 1);
+            var carona = new Carona(ofertante, 1, new Endereco(), new Endereco());
             carona.SolicitarCarona(caroneiro);
             var esperado = StatusCarona.PERMITIDO;
 
@@ -54,7 +54,7 @@ namespace ava.carona.app.test
         {
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante,1);
+            var carona = new Carona(ofertante,1, new Endereco(), new Endereco());
             carona.SolicitarCarona(caroneiro);
             var esperado = StatusCarona.NEGADO;
 
@@ -68,7 +68,7 @@ namespace ava.carona.app.test
         {
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 1);
+            var carona = new Carona(ofertante, 1, new Endereco(), new Endereco());
             carona.Bloquear();
 
             carona.SolicitarCarona(caroneiro);
@@ -80,7 +80,7 @@ namespace ava.carona.app.test
         public void BloquearCaronaOfertante()
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 1);
+            var carona = new Carona(ofertante, 1, new Endereco(), new Endereco());
 
             carona.SolicitarCarona(ofertante);
 
@@ -90,14 +90,14 @@ namespace ava.carona.app.test
         public void LimiteMaximoDeTotalVagasNaoPermitido()
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 7);
+            var carona = new Carona(ofertante, 7, new Endereco(), new Endereco());
         }
         [TestMethod]
         [ExpectedException(typeof(QuantidadeTotalDeVagasNaoPermitidoException))]
         public void LimiteMinimoDeTotalVagasNaoPermitido()
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 0);
+            var carona = new Carona(ofertante, 0, new Endereco(), new Endereco());
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace ava.carona.app.test
         public void CaroneiroJaInclusoNaCarona()
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 1);
+            var carona = new Carona(ofertante, 1, new Endereco(), new Endereco());
             var caroneiro = new Colaborador(EID_CARONEIRO);
 
             carona.SolicitarCarona(caroneiro);
@@ -117,7 +117,7 @@ namespace ava.carona.app.test
         public void NaoHaVagasDisponiveis()
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
-            var carona = new Carona(ofertante, 1);
+            var carona = new Carona(ofertante, 1, new Endereco(), new Endereco());
             var caroneiro = new Colaborador(EID_CARONEIRO);
             var caroneiro2 = new Colaborador("r.teste.com");
             var caroneiro3 = new Colaborador("r.teste.com1");
@@ -129,6 +129,22 @@ namespace ava.carona.app.test
             carona.PermitirCarona(caroneiro);
             carona.PermitirCarona(caroneiro2);
             carona.PermitirCarona(caroneiro3);
+
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnderecoOrigemNaoInformado()
+        {
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 1, null, new Endereco());
+
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void EnderecoDestinoNaoInformado()
+        {
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 1, new Endereco(), null);
 
         }
     }

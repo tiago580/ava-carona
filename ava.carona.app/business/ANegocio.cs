@@ -42,6 +42,7 @@ namespace ava.carona.app.business
             {
                 throw new RegistroNaoEncontradoException();
             }
+            var registro = Obter(e => e.Equals(obj));
             return _repositorio.Deletar(obj);
         }
 

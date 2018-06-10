@@ -18,11 +18,11 @@ namespace ava.carona.app.test
         [TestMethod]
         public void Adicionar()
         {
-            var negocio = new CaronaNegocioIM(new CaronaRepositorio());
+            var negocio = new CaronaNegocio(new CaronaRepositorio());
             for (int j = 0; j < 10; j++)
             {
                 var ofertante = new Colaborador($"{EID_OFERTANTE}-{j}");
-                var carona = new Carona(ofertante, 6);
+                var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -40,14 +40,14 @@ namespace ava.carona.app.test
         [TestMethod]
         public void ListarPorOfertante()
         {
-            var negocio = new CaronaNegocioIM(new CaronaRepositorio());
+            var negocio = new CaronaNegocio(new CaronaRepositorio());
             var solicitacoesEsperadas = 0;
             var esperado = 1;
             Colaborador _ofertante = null;
             for (int j = 0; j < 10; j++)
             {
                 var ofertante = new Colaborador($"{EID_OFERTANTE}-{j}");
-                var carona = new Carona(ofertante, 6);
+                var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
 
                 for (int i = 0; i < 5; i++)
                 {

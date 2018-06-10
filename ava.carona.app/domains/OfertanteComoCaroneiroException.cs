@@ -4,16 +4,10 @@ namespace ava.carona.app.domains
 {
     public class OfertanteComoCaroneiroException : Exception
     {
-        public OfertanteComoCaroneiroException()
+        public OfertanteComoCaroneiroException(string msg): base(msg)
         {
-        }
 
-        public OfertanteComoCaroneiroException(string message) : base(message)
-        {
         }
-
-        public OfertanteComoCaroneiroException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        public override string Message => "Não é possível utilizar o Ofertante como Caroneiro.";
     }
 }

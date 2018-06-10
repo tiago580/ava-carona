@@ -7,9 +7,9 @@ using ava.carona.app.helpers;
 
 namespace ava.carona.app.business
 {
-    public class ColaboradorNegocioIM : ANegocio<Colaborador>, IColaboradorNegocio
+    public class ColaboradorNegocio : ANegocio<Colaborador>, IColaboradorNegocio
     {
-        public ColaboradorNegocioIM(IRepositorio<Colaborador> repositorio) : base(repositorio)
+        public ColaboradorNegocio(IRepositorio<Colaborador> repositorio) : base(repositorio)
         {
         }
 

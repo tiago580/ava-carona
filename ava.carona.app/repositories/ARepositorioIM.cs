@@ -42,6 +42,11 @@ namespace ava.carona.app.repositories
             return _entidades.AsQueryable().Where(predicate).FirstOrDefault();
         }
 
+        public T Obter(Expression<Func<T, bool>> predicate, bool noTrancking = true)
+        {
+            throw new NotImplementedException();
+        }
+
         private int obterId()
         {
             if (_entidades.Count == 0)

@@ -4,16 +4,10 @@ namespace ava.carona.app.domains
 {
     public class QuantidadeTotalDeVagasNaoPermitidoException : Exception
     {
-        public QuantidadeTotalDeVagasNaoPermitidoException()
+        public QuantidadeTotalDeVagasNaoPermitidoException(string msg): base(msg)
         {
-        }
 
-        public QuantidadeTotalDeVagasNaoPermitidoException(string message) : base(message)
-        {
         }
-
-        public QuantidadeTotalDeVagasNaoPermitidoException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        public override string Message => "Quantidade total de vagas não permitido."; 
     }
 }
