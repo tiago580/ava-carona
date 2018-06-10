@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ava.carona.app.helpers
+namespace ava.carona.app.domains
 {
     public class EntidadeBloqueadaException : Exception
     {

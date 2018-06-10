@@ -21,5 +21,10 @@ namespace ava.carona.app.domains
         [ForeignKey("Carona")]
         public int CaronaId { get; set; }
         public Carona Carona { get; set; }
+
+        public override void Validar()
+        {
+            Carona.Validar();
+        }
     }
 }

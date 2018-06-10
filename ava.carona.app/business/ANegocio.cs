@@ -36,6 +36,16 @@ namespace ava.carona.app.business
             return _repositorio.Atualizar(obj);
         }
 
+        public virtual T Atualizar(T obj, int id)
+        {
+            if (!ExisteRegistro(id))
+            {
+                throw new RegistroNaoEncontradoException();
+            }
+
+            return _repositorio.Atualizar(obj);
+        }
+
         public int Deletar(T obj)
         {
             if (!ExisteRegistro(obj))
@@ -50,6 +60,11 @@ namespace ava.carona.app.business
         {
             obj.ValidarArgumentoNulo();
             return Obter(e => e.Equals(obj)) != null;
+        }
+
+        public bool ExisteRegistro(int id)
+        {
+            return Obter(e => e.Id == id) != null;
         }
 
         public IEnumerable<T> Listar()
@@ -72,7 +87,7 @@ namespace ava.carona.app.business
 
         public T ObterPorId(int id)
         {
-            return _repositorio.Obter(e => e.Id == id);
+            return _repositorio.Obter(e => e.Id == id, false);
         }
 
     }

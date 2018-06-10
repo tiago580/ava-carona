@@ -6,6 +6,6 @@ namespace ava.carona.app.domains
 {
     public class ColaboradorLimiteMaximoDeCaracteresExcedidoException: Exception
     {
-        public override string Message => "Limite máximo de caracteres excedido";
+        public override string Message => "[EID] - Limite máximo de caracteres excedido";
     }
 }

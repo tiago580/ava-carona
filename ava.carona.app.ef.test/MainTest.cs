@@ -15,13 +15,22 @@ namespace ava.carona.app.ef.test
             }
         }
 
-        [AssemblyCleanup]
+        //[AssemblyCleanup]
         public static void AssemblyCleanup()
         {
             using (var repositorio = new AppContext())
             {
                 repositorio.DesativarBaseDeDados();
             }
+        }
+
+        [TestMethod]
+        public void init()
+        {
+            using (var repositorio = new AppContext())
+            {
+            }
+
         }
     }
 }

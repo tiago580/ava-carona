@@ -10,8 +10,7 @@ namespace ava.carona.app.test
         [ExpectedException(typeof(ColaboradorLimiteMinimoDeCaracteresNaoAtingidoException))]
         public void LimiteMinimoDeCaracteresNaoAtingidoTest()
         {
-            var colaborador = new Colaborador();
-            colaborador.EID = "1";
+            var colaborador = new Colaborador("1");
         }
         [TestMethod]
         [ExpectedException(typeof(ColaboradorLimiteMaximoDeCaracteresExcedidoException))]

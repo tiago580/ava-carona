@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ava.carona.app.repositories
 {
-    public class ColaboradorRepositorioEF : ARepositorioEF<Colaborador>
+    public class ColaboradorRepositorioEF : ARepositorioEF<Colaborador>, IColaboradorRepositorio
     {
         public ColaboradorRepositorioEF(DbContext context) : base(context)
         {

@@ -29,7 +29,8 @@ namespace ava.carona.app.domains
         public IList<Endereco> Enderecos { get; set; } = new List<Endereco>();
         public IList<CaronaCaroneiro> Caroneiros { get; set; } = new List<CaronaCaroneiro>();
 
-
+        [MaxLength(LIMITE_MAXIMO_DE_VAGAS, ErrorMessageResourceType = typeof(ColaboradorLimiteMaximoDeCaracteresExcedidoException))]
+        [MinLength(LIMITE_MINIMO_DE_VAGAS, ErrorMessageResourceType = typeof(ColaboradorLimiteMinimoDeCaracteresNaoAtingidoException))]
         public int VagasTotal
         {
             get
@@ -95,6 +96,7 @@ namespace ava.carona.app.domains
             {
                 throw new NaoHaVagasDisponiveisException();
             }
+
             return AlterarStatusCarona(caroneiro, StatusCarona.PERMITIDO);
         }
 
@@ -112,6 +114,8 @@ namespace ava.carona.app.domains
             {
                 throw new CaroneiroNaoEncontradoException();
             }
+
+            caroneiro.Validar();
 
             Caroneiros.Where(cc => cc.Caroneiro.Equals(caroneiro)).Select(cc => cc.StatusCarona = status).ToList();
             return ObterPorCaroneiro(caroneiro).StatusCarona;
@@ -135,6 +139,7 @@ namespace ava.carona.app.domains
         {
             verificarOfertante();
             caroneiro.ValidarArgumentoNulo();
+
             if (EstaBloqueado())
             {
                 throw new CaronaBloqueadaException();
@@ -153,8 +158,7 @@ namespace ava.carona.app.domains
             {
                 throw new CaroneiroJaInclusoNaCaronaException();
             }
-
-
+            caroneiro.Validar();
 
             Caroneiros.Add(new CaronaCaroneiro(this, caroneiro));
         }
@@ -222,6 +226,12 @@ namespace ava.carona.app.domains
             hashCode = hashCode * -1521134295 + Horario.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<Colaborador>.Default.GetHashCode(Ofertante);
             return hashCode;
+        }
+
+        public override void Validar()
+        {
+            this.ValidarBloqueio();
+            _vagas.ValidarVagas(LIMITE_MAXIMO_DE_VAGAS, LIMITE_MINIMO_DE_VAGAS);
         }
     }
 }

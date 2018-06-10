@@ -8,7 +8,7 @@ namespace ava.carona.app.business
 {
     public class CaronaNegocio : ANegocio<Carona>, ICaronaNegocio
     {
-        public CaronaNegocio(IRepositorio<Carona> repositorio) : base(repositorio)
+        public CaronaNegocio(ICaronaRepositorio repositorio) : base(repositorio)
         {
         }
 
@@ -17,5 +17,6 @@ namespace ava.carona.app.business
             ofertante.ValidarArgumentoNulo("Ofertante não informado");
             return _repositorio.Listar(carona => carona.Ofertante.Equals(ofertante));
         }
+
     }
 }

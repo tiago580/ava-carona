@@ -1,6 +1,7 @@
 ﻿using ava.carona.app.helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ava.carona.app.domains
 {
@@ -12,30 +13,10 @@ namespace ava.carona.app.domains
         //public IList<CaronaCaroneiro> Caronas { get; set; } = new List<CaronaCaroneiro>();
         public int PID { get; set; }
 
-        private string _EID;
-        public string EID {
-            get
-            {
-                _EID.ValidarEIDNaoInformado();
-                return _EID;
-            }
-            set
-            {
-                value.ValidarEIDNaoInformado();
-
-                if (value.Length < LIMITE_MINIMO_CARACTERES_EID)
-                {
-                    throw new ColaboradorLimiteMinimoDeCaracteresNaoAtingidoException();
-                }
-
-                if (value.Length > LIMITE_MAXIMO_CARACTERES_EID)
-                {
-                    throw new ColaboradorLimiteMaximoDeCaracteresExcedidoException();
-                }
-
-                _EID = value; 
-            }
-        }
+        [Required]
+        [MinLength(LIMITE_MINIMO_CARACTERES_EID)]
+        [MaxLength(LIMITE_MAXIMO_CARACTERES_EID)]
+        public string EID { get; set; }
         public string Nome { get; set; }
 
         public Colaborador(): base()
@@ -44,6 +25,7 @@ namespace ava.carona.app.domains
         }
         public Colaborador(string EID): this()
         {
+            EID.ValidarEID();
             this.EID = EID;
         }
 
@@ -78,9 +60,14 @@ namespace ava.carona.app.domains
         {
             var hashCode = 2044715075;
             hashCode = hashCode * -1521134295 + PID.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_EID);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(EID);
             return hashCode;
+        }
+
+        public override void Validar()
+        {
+            this.ValidarBloqueio();
+            EID.ValidarEID();
         }
     }
 }
