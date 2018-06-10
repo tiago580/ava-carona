@@ -33,6 +33,7 @@ namespace ava.carona.app.repositories
         public int Deletar(T obj)
         {
             var entry = _context.Remove(obj);
+            _context.SaveChanges();
             return entry.Entity.Id;
         }
 
@@ -46,16 +47,12 @@ namespace ava.carona.app.repositories
             return _context.Set<T>().AsNoTracking().Where(predicate).ToList();
         }
 
-        public T Obter(Expression<Func<T, bool>> predicate, bool noTrancking)
+        public T Obter(Expression<Func<T, bool>> predicate, bool noTrancking = true)
         {
             if (noTrancking)
             {
                 return _context.Set<T>().AsNoTracking().Where(predicate).FirstOrDefault();
             }
-            return Obter(predicate);
-        }
-        public T Obter(Expression<Func<T, bool>> predicate)
-        {
             return _context.Set<T>().Where(predicate).FirstOrDefault();
         }
 

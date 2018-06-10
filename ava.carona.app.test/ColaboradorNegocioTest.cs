@@ -53,12 +53,13 @@ namespace ava.carona.app.test
             var colaborador2 = new Colaborador(EID_CARONEIRO);
             var negocio = new ColaboradorNegocio(new ColaboradorRepositorioIM());
             var esperado = new Colaborador(EID_CARONEIRO);
+            var valorEsperado = 2;
 
             negocio.Adicionar(colaborador);
             negocio.Adicionar(colaborador2);
             var resultado = negocio.Deletar(esperado);
 
-            Assert.AreEqual(esperado.Id, resultado);
+            Assert.AreEqual(valorEsperado, resultado);
         }
 
         [TestMethod]

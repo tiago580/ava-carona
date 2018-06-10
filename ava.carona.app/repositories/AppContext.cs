@@ -1,5 +1,6 @@
 ﻿using ava.carona.app.domains;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,17 +19,38 @@ namespace ava.carona.app.repositories
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Colaborador>().ToTable("colaborador");
-            modelBuilder.Entity<Carona>().ToTable("carona");
+            modelBuilder.Entity<Colaborador>()
+                .ToTable("colaborador");
+
+            modelBuilder.Entity<Carona>()
+                .ToTable("carona");
+
+            modelBuilder.Entity<Carona>()
+                .HasMany<Endereco>(c => c.Enderecos)
+                .WithOne(e => e.Carona)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<Carona>()
+            //    .HasOne<Endereco>(c => c.Destino)
+            //    .WithMany()
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+
 
             modelBuilder.Entity<CaronaCaroneiro>()
-    .HasKey(t => new { t.CaroneiroId, t.CaronaId });
+                .HasKey(t => new { t.CaroneiroId, t.CaronaId });
+
 
             modelBuilder.Entity<CaronaCaroneiro>()
-                .HasOne(pt => pt.Caroneiro)
+                .HasOne(pt => pt.Carona)
                 .WithMany(p => p.Caronas)
-                .HasForeignKey(pt => pt.CaroneiroId);
+                .HasForeignKey(pt => pt.CaroneiroId)
+                .OnDelete(DeleteBehavior.Cascade); 
 
+            //modelBuilder.Entity<CaronaCaroneiro>()
+            //    .HasOne(pt => pt.Caroneiro)
+            //    .WithMany(p => p.Caronas)
+            //    .HasForeignKey(pt => pt.CaroneiroId);
         }
 
         public void AtivarBaseDeDados()

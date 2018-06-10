@@ -42,12 +42,13 @@ namespace ava.carona.app.business
             {
                 throw new RegistroNaoEncontradoException();
             }
-            var registro = Obter(e => e.Equals(obj));
-            return _repositorio.Deletar(obj);
+            var _obj = _repositorio.Obter(e => e.Equals(obj), false);
+            return _repositorio.Deletar(_obj);
         }
 
         public bool ExisteRegistro(T obj)
         {
+            obj.ValidarArgumentoNulo();
             return Obter(e => e.Equals(obj)) != null;
         }
 

@@ -17,7 +17,7 @@ namespace ava.carona.app.test
         {
             var ofertante = new Colaborador(EID_OFERTANTE);
             ofertante.Bloquear();
-            var carona = new Carona();
+            var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
 
             carona.Ofertante = ofertante;
 

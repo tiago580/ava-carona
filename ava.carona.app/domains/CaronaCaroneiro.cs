@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ava.carona.app.helpers;
 
 namespace ava.carona.app.domains
 {
@@ -10,8 +11,11 @@ namespace ava.carona.app.domains
         {
 
         }
-        public CaronaCaroneiro(Carona carona, Colaborador caroneiro)
+        public CaronaCaroneiro(Carona carona, Colaborador caroneiro): base()
         {
+            carona.ValidarArgumentoNulo();
+            caroneiro.ValidarArgumentoNulo();
+
             Carona = carona;
             Caroneiro = caroneiro;
             StatusCarona = StatusCarona.PENDENTE;
@@ -31,7 +35,8 @@ namespace ava.carona.app.domains
 
             set
             {
-                _carona = value ?? throw new ArgumentNullException("Carona não informada.");
+                //value.ValidarArgumentoNulo("Carona não informada.");
+                _carona = value;
             }
         }
 
@@ -45,7 +50,8 @@ namespace ava.carona.app.domains
 
             set
             {
-                _caroneiro = value ?? throw new ArgumentNullException("Caroneiro não informado.");
+                //value.ValidarArgumentoNulo("Caroneiro não informado.");
+                _caroneiro = value;
             }
         }
         public StatusCarona StatusCarona

@@ -17,18 +17,18 @@ namespace ava.carona.app.business
         {
             eid.ValidarEIDNaoInformado();
 
-
-            if (!ExisteRegistro(new Colaborador(eid)))
+            var colaborador = _repositorio.Obter(c => c.EID == eid, false);
+            if (colaborador == null)
             {
                 throw new RegistroNaoEncontradoException();
             }
 
-            return _repositorio.Obter(c => c.EID == eid);
+            return colaborador;
         }
 
         public Colaborador ObterPorPID(int pid)
         {
-            var colaborador = _repositorio.Obter(c => c.PID == pid);
+            var colaborador = _repositorio.Obter(c => c.PID == pid, false);
             if (colaborador == null)
             {
                 throw new RegistroNaoEncontradoException();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ava.carona.app.helpers;
 
@@ -18,40 +19,14 @@ namespace ava.carona.app.domains
         private const string MSG_ENDERECO_DESTINO_NAO_INFORMADO = "Endereço de destino não informado.";
         private const int LIMITE_MAXIMO_DE_VAGAS = 6;
         private const int LIMITE_MINIMO_DE_VAGAS = 1;
+
+        public IList<CaronaCaroneiro> Caronas { get; set; } = new List<CaronaCaroneiro>();
+
+        public DateTime Horario { get; set; }
         private Colaborador _ofertante;
         private int _vagas;
-        private Endereco _origem;
-        public Endereco Origem
-        { 
-            get
-            {
-                _origem.ValidarArgumentoNulo();
-                return _origem;
-            }
 
-            set
-            {
-                value.ValidarArgumentoNulo(MSG_ENDERECO_ORIGEM_NAO_INFORMADO);
-                _origem = value;
-            }
-        }
-
-        private Endereco _destino;
-        public Endereco Destino
-        {
-            get
-            {
-                _destino.ValidarArgumentoNulo();
-                return _origem;
-            }
-
-            set
-            {
-                value.ValidarArgumentoNulo(MSG_ENDERECO_DESTINO_NAO_INFORMADO);
-                _destino = value;
-            }
-        }
-
+        public IList<Endereco> Enderecos { get; set; } = new List<Endereco>();
         public IList<CaronaCaroneiro> Caroneiros { get; set; } = new List<CaronaCaroneiro>();
 
 
@@ -64,15 +39,7 @@ namespace ava.carona.app.domains
 
             set
             {
-                if (value > LIMITE_MAXIMO_DE_VAGAS)
-                {
-                    throw new QuantidadeTotalDeVagasNaoPermitidoException($"A quantidade máxima de vagas é {LIMITE_MAXIMO_DE_VAGAS}");
-                }
-                if (value < LIMITE_MINIMO_DE_VAGAS)
-                {
-                    throw new QuantidadeTotalDeVagasNaoPermitidoException($"A quantidade mínima de vagas é {LIMITE_MINIMO_DE_VAGAS}");
-                }
-
+                value.ValidarVagas(LIMITE_MAXIMO_DE_VAGAS, LIMITE_MINIMO_DE_VAGAS);
                 _vagas = value;
             }
         }
@@ -91,29 +58,31 @@ namespace ava.carona.app.domains
             }
         }
 
+        //[Required]
         public Colaborador Ofertante
         {
             get
             {
-                _ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
                 return _ofertante;
             }
             set
             {
-                value.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
-
-                if (value.EstaBloqueado())
-                {
-                    throw new ColaboradorBloqueadoException("Colaborador sem permissão para oferecer carona.");
-                }
-
+                verificarOfertante(value);
                 _ofertante = value;
             }
         }
 
-        private void verificarOfertante()
+        private void verificarOfertante(Colaborador ofertante = null)
         {
-            _ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
+            const string Msg = "Colaborador sem permissão para oferecer carona.";
+
+            ofertante = (ofertante != null) ? ofertante : _ofertante;
+            ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
+            
+            if (ofertante.EstaBloqueado())
+            {
+                throw new ColaboradorBloqueadoException(Msg);
+            }
         }
         public bool ExisteCaroneiro(Colaborador caroneiro)
         {
@@ -194,20 +163,30 @@ namespace ava.carona.app.domains
 
         public Carona(): base()
         {
+            Horario = DateTime.Now;
         }
 
         public Carona(Colaborador ofertante, int vagas, Endereco origem, Endereco destino): this()
         {
+            ofertante.ValidarArgumentoNulo();
+            vagas.ValidarVagas(LIMITE_MAXIMO_DE_VAGAS, LIMITE_MINIMO_DE_VAGAS);
+
+            origem.ValidarArgumentoNulo();
+            destino.ValidarArgumentoNulo();
+            
             Ofertante = ofertante;
             VagasTotal = vagas;
-            Origem = origem;
-            Destino = destino;
 
-            Origem.Carona = this;
-            Destino.Carona = this;
+            origem.Tipo = TipoEndereco.ORIGEM;
+            destino.Tipo = TipoEndereco.DESTINO;
+
+            Enderecos.Add(origem);
+            Enderecos.Add(destino);
+            //Origem.CaronaOrigem = this;
+            //Destino.CaronaDestino = this;
         }
 
-        public bool Equals(Carona obj)
+        public override bool Equals(object obj)
         {
             obj.ValidarArgumentoNulo();
 
@@ -216,15 +195,33 @@ namespace ava.carona.app.domains
                 throw new TiposDiferentesException();
             }
 
+            
+
             var _obj = obj as Carona;
+
+            _obj.Horario.ValidarArgumentoNulo();
+
             if (this.Id == _obj.Id)
             {
                 return true;
             }
 
+            if (this.Horario.Date == _obj.Horario.Date && 
+                this.Horario.Hour == _obj.Horario.Hour &&
+                this.Horario.Minute == _obj.Horario.Minute)
+            {
+                return true;
+            }
             return false;
 
         }
 
+        public override int GetHashCode()
+        {
+            var hashCode = -1320143218;
+            hashCode = hashCode * -1521134295 + Horario.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Colaborador>.Default.GetHashCode(Ofertante);
+            return hashCode;
+        }
     }
 }

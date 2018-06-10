@@ -15,8 +15,8 @@ namespace ava.carona.app.ef.test
             }
         }
 
-        //[AssemblyCleanup]
-        public static void AssemblyCleanup(TestContext context)
+        [AssemblyCleanup]
+        public static void AssemblyCleanup()
         {
             using (var repositorio = new AppContext())
             {

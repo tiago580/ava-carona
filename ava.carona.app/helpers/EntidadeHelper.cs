@@ -20,13 +20,22 @@ namespace ava.carona.app.helpers
             }
         }
 
-        public static void ValidarEIDNaoInformado(this string eid)
+        public static void ValidarBloqueio(this object entidade)
         {
-            if (eid == null)
+            if (entidade is IBloqueavel)
             {
-                throw new ArgumentNullException("EID não informado");
+                var entidadeBloqueavel = entidade as IBloqueavel;
+                if (entidadeBloqueavel.EstaBloqueado())
+                {
+                    throw new EntidadeBloqueadaException();
+                }
+            }
+            else
+            {
+                throw new EntidadeNaoBloqueavelException();
             }
         }
+
 
 
     }

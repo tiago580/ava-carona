@@ -37,8 +37,6 @@ namespace ava.carona.app.ef.test
                 var negocio = new CaronaNegocio(new CaronaRepositorioEF(context));
                 var negocioColaborador = new ColaboradorNegocio(new ColaboradorRepositorioEF(context));
 
-                negocioColaborador.Deletar(new Colaborador(EID_OFERTANTE));
-                negocioColaborador.Deletar(new Colaborador(EID_CARONEIRO));
 
                 var caronas = negocio.Listar();
                 if (caronas != null)
@@ -49,10 +47,12 @@ namespace ava.carona.app.ef.test
 
                     }
                 }
-                
+
+                negocioColaborador.Deletar(new Colaborador(EID_OFERTANTE));
+                negocioColaborador.Deletar(new Colaborador(EID_CARONEIRO));
 
             }
-    
+
         }
 
         [TestMethod]

@@ -19,20 +19,17 @@ namespace ava.carona.app.test
         public void Adicionar()
         {
             var negocio = new CaronaNegocio(new CaronaRepositorio());
-            for (int j = 0; j < 10; j++)
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
+
+            for (int i = 0; i < 5; i++)
             {
-                var ofertante = new Colaborador($"{EID_OFERTANTE}-{j}");
-                var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
-
-                for (int i = 0; i < 5; i++)
-                {
-                    carona.SolicitarCarona(new Colaborador($"{EID_CARONEIRO}-{i}"));
-                }
-
-                negocio.Adicionar(carona);
+                carona.SolicitarCarona(new Colaborador($"{EID_CARONEIRO}-{i}"));
             }
 
-            var esperado = 10;
+            negocio.Adicionar(carona);
+
+            var esperado = 1;
 
             Assert.AreEqual(esperado, negocio.Listar().Count());
         }
@@ -43,32 +40,21 @@ namespace ava.carona.app.test
             var negocio = new CaronaNegocio(new CaronaRepositorio());
             var solicitacoesEsperadas = 0;
             var esperado = 1;
-            Colaborador _ofertante = null;
-            for (int j = 0; j < 10; j++)
+            var ofertante = new Colaborador(EID_OFERTANTE);
+            var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
+
+            for (int i = 0; i < 5; i++)
             {
-                var ofertante = new Colaborador($"{EID_OFERTANTE}-{j}");
-                var carona = new Carona(ofertante, 6, new Endereco(), new Endereco());
-
-                for (int i = 0; i < 5; i++)
-                {
-                    carona.SolicitarCarona(new Colaborador($"{EID_CARONEIRO}-{i}"));
-                    if (j == 3)
-                    {
-                        solicitacoesEsperadas++;
-                    }
-                }
-
-                if (j == 3)
-                {
-                    _ofertante = ofertante;
-                }
-                negocio.Adicionar(carona);
+                carona.SolicitarCarona(new Colaborador($"{EID_CARONEIRO}-{i}"));
+                solicitacoesEsperadas++;
             }
 
+            negocio.Adicionar(carona);
 
-            IList<Carona> caronas = negocio.ListarPorOfertante(_ofertante).ToList();
 
-            Assert.AreEqual(esperado, negocio.ListarPorOfertante(_ofertante).Count());
+            IList<Carona> caronas = negocio.ListarPorOfertante(ofertante).ToList();
+
+            Assert.AreEqual(esperado, negocio.ListarPorOfertante(ofertante).Count());
             Assert.AreEqual(solicitacoesEsperadas, caronas[0].Caroneiros.Count);
         }
     }

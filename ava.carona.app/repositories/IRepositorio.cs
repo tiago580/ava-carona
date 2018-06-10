@@ -9,7 +9,6 @@ namespace ava.carona.app.repositories
     {
         T Adicionar(T obj);
         T Atualizar(T obj);
-        T Obter(Expression<Func<T, bool>> predicate);
         T Obter(Expression<Func<T, bool>> predicate, bool noTrancking = true);
         IEnumerable<T> Listar();
         IEnumerable<T> Listar(Expression<Func<T, bool>> predicate);
