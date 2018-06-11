@@ -50,6 +50,10 @@ namespace ava.carona.app.webapi
 
             Mapper.Initialize(config =>
            {
+               config.CreateMap<Endereco, EnderecoDTO>();
+               config.CreateMap<EnderecoDTO, Endereco>();
+               config.CreateMap<CaronaDTO, Carona>();
+               config.CreateMap<Carona, CaronaDTO>();
                config.CreateMap<ColaboradorDTO, Colaborador>();
                config.CreateMap<Colaborador, ColaboradorDTO>()
                 .ForSourceMember(src => src.CreatedAt, opt => opt.Ignore())

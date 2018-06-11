@@ -19,6 +19,7 @@ namespace ava.carona.app.facade
         int DeletarColaborador(int id);
 
         Colaborador AtualizarColaborador(Colaborador colaborador, int id);
+        Colaborador BloquearColaborador(Colaborador colaborador, int id);
 
         #endregion
 

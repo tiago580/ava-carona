@@ -190,16 +190,20 @@ namespace ava.carona.app.domains
             //Destino.CaronaDestino = this;
         }
 
+        public Endereco ObterEndereco(TipoEndereco tipo)
+        {
+            return Enderecos.Where(e => e.Tipo == tipo).FirstOrDefault();
+        }
         public override bool Equals(object obj)
         {
             obj.ValidarArgumentoNulo();
 
             if (!(obj is Carona))
             {
-                throw new TiposDiferentesException();
+                return false;
             }
 
-            
+
 
             var _obj = obj as Carona;
 
@@ -228,10 +232,23 @@ namespace ava.carona.app.domains
             return hashCode;
         }
 
+        public void ValidarEnderecos()
+        {
+            Enderecos.ValidarArgumentoNulo();
+            if (
+                Enderecos.Count != 2 ||
+                Enderecos.Where(e => e.Tipo == TipoEndereco.DESTINO).Count() != 1
+                )
+            {
+                throw new ListaDeEnderecoInvalidaException();
+            }
+
+        }
         public override void Validar()
         {
             this.ValidarBloqueio();
             _vagas.ValidarVagas(LIMITE_MAXIMO_DE_VAGAS, LIMITE_MINIMO_DE_VAGAS);
+            ValidarEnderecos();
         }
     }
 }

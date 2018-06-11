@@ -135,6 +135,24 @@ namespace ava.carona.app.webapi.services
             }
         }
 
+        [HttpPut("bloquear/{id}")]
+        public IActionResult Bloquear(int id)
+        {
+            try
+            {
+                var colaborador = fachada.ObterColaboradorPorId(id);
+                colaborador.Bloquear();
+                fachada.BloquearColaborador(colaborador, id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+        }
+
+
 
         private Colaborador ObterColaborador(int id)
         {

@@ -10,20 +10,20 @@ namespace ava.carona.app.domains
         {
 
         }
-        private bool _Bloqueado;
+        public bool Bloqueado { get; set; }
         public void Bloquear()
         {
-            _Bloqueado = true;
+            Bloqueado = true;
         }
 
         public void Desbloquear()
         {
-            _Bloqueado = false;
+            Bloqueado = false;
         }
 
         public bool EstaBloqueado()
         {
-            return _Bloqueado;
+            return Bloqueado;
         }
     }
 }

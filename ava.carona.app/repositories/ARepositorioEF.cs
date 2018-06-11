@@ -10,7 +10,7 @@ namespace ava.carona.app.repositories
 {
     public class ARepositorioEF<T> : IRepositorio<T> where T: AEntidade
     {
-        private DbContext _context;
+        protected DbContext _context;
 
         public ARepositorioEF(DbContext context)
         {
@@ -37,17 +37,17 @@ namespace ava.carona.app.repositories
             return entry.Entity.Id;
         }
 
-        public IEnumerable<T> Listar()
+        public virtual IEnumerable<T> Listar()
         {
             return Listar(e => true);
         }
 
-        public IEnumerable<T> Listar(Expression<Func<T, bool>> predicate)
+        public virtual IEnumerable<T> Listar(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().AsNoTracking().Where(predicate).ToList();
         }
 
-        public T Obter(Expression<Func<T, bool>> predicate, bool noTrancking = true)
+        public virtual T Obter(Expression<Func<T, bool>> predicate, bool noTrancking = true)
         {
             if (noTrancking)
             {

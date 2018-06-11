@@ -33,10 +33,10 @@ namespace ava.carona.app.domains
         {
             obj.ValidarArgumentoNulo();
 
-            if (!(obj is Colaborador))
-            {
-                throw new TiposDiferentesException();
-            }
+            //if (!(obj is Colaborador))
+            //{
+            //    throw new TiposDiferentesException();
+            //}
 
             var _obj = obj as Colaborador;
             if (this.EID == _obj.EID)

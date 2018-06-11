@@ -49,6 +49,10 @@ namespace ava.carona.app.facade
             colaborador.Validar();
             return colaboradorNegocio.Atualizar(colaborador, id);
         }
+        public Colaborador BloquearColaborador(Colaborador colaborador, int id)
+        {
+            return colaboradorNegocio.Atualizar(colaborador, id);
+        }
 
         public Colaborador ObterColaboradorPorId(int id)
         {

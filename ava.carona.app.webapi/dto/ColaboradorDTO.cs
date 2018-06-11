@@ -10,5 +10,6 @@ namespace ava.carona.app.webapi.dto
         public string EID { get; set; }
         public int PID { get; set; }
         public string Nome { get; set; }
+        public bool Bloqueado { get; set; }
     }
 }
