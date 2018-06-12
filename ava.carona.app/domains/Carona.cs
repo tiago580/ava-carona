@@ -122,10 +122,18 @@ namespace ava.carona.app.domains
             return Caroneiros.Where(cc => cc.Caroneiro.Equals(caroneiro)).FirstOrDefault();
         }
 
+        public void ValidarVagasDisponiveis()
+        {
+            if (VagasOcupadas == VagasTotal)
+            {
+                throw new NaoHaVagasDisponiveisException();
+            }
+        }
 
         public void SolicitarCarona(Colaborador caroneiro)
         {
             ValidarOfertante();
+            ValidarVagasDisponiveis();
             caroneiro.ValidarArgumentoNulo();
 
             if (EstaBloqueado())
