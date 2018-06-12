@@ -28,15 +28,16 @@ namespace ava.carona.app.domains
             EID.ValidarEID();
             this.EID = EID;
         }
+        public IList<CaronaCaroneiro> Caronas { get; set; } = new List<CaronaCaroneiro>();
 
         public override bool Equals(object obj)
         {
-            obj.ValidarArgumentoNulo();
+            if (obj == null) return false;
 
-            //if (!(obj is Colaborador))
-            //{
-            //    throw new TiposDiferentesException();
-            //}
+            if (!(obj is Colaborador))
+            {
+                return false;
+            }
 
             var _obj = obj as Colaborador;
             if (this.EID == _obj.EID)

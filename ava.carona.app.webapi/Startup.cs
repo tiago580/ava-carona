@@ -55,6 +55,7 @@ namespace ava.carona.app.webapi
                config.CreateMap<CaronaDTO, Carona>();
                config.CreateMap<Carona, CaronaDTO>();
                config.CreateMap<ColaboradorDTO, Colaborador>();
+               config.CreateMap<Colaborador, CaroneiroDTO>();
                config.CreateMap<Colaborador, ColaboradorDTO>()
                 .ForSourceMember(src => src.CreatedAt, opt => opt.Ignore())
                 .ForSourceMember(src => src.Id, opt => opt.Ignore()); 

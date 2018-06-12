@@ -23,7 +23,6 @@ namespace ava.carona.app.domains
         public IList<CaronaCaroneiro> Caronas { get; set; } = new List<CaronaCaroneiro>();
 
         public DateTime Horario { get; set; }
-        private Colaborador _ofertante;
         private int _vagas;
 
         public IList<Endereco> Enderecos { get; set; } = new List<Endereco>();
@@ -60,24 +59,13 @@ namespace ava.carona.app.domains
         }
 
         //[Required]
-        public Colaborador Ofertante
-        {
-            get
-            {
-                return _ofertante;
-            }
-            set
-            {
-                verificarOfertante(value);
-                _ofertante = value;
-            }
-        }
+        public Colaborador Ofertante { get; set; }
 
-        private void verificarOfertante(Colaborador ofertante = null)
+        public void ValidarOfertante(Colaborador ofertante = null)
         {
             const string Msg = "Colaborador sem permissão para oferecer carona.";
 
-            ofertante = (ofertante != null) ? ofertante : _ofertante;
+            ofertante = (ofertante != null) ? ofertante : Ofertante;
             ofertante.ValidarArgumentoNulo(MSG_OFERTANTE_NAO_INFORMADO);
             
             if (ofertante.EstaBloqueado())
@@ -106,7 +94,7 @@ namespace ava.carona.app.domains
         }
         private StatusCarona AlterarStatusCarona(Colaborador caroneiro, StatusCarona status)
         {
-            verificarOfertante();
+            ValidarOfertante();
 
             caroneiro.ValidarArgumentoNulo();
 
@@ -128,7 +116,7 @@ namespace ava.carona.app.domains
         }
         public CaronaCaroneiro ObterPorCaroneiro(Colaborador caroneiro)
         {
-            verificarOfertante();
+            ValidarOfertante();
 
             caroneiro.ValidarArgumentoNulo();
             return Caroneiros.Where(cc => cc.Caroneiro.Equals(caroneiro)).FirstOrDefault();
@@ -137,7 +125,7 @@ namespace ava.carona.app.domains
 
         public void SolicitarCarona(Colaborador caroneiro)
         {
-            verificarOfertante();
+            ValidarOfertante();
             caroneiro.ValidarArgumentoNulo();
 
             if (EstaBloqueado())
@@ -149,7 +137,7 @@ namespace ava.carona.app.domains
                 throw new ColaboradorBloqueadoException("Colaborador sem permissão para solicitar carona.");
             }
 
-            if (caroneiro.Equals(_ofertante))
+            if (caroneiro.Equals(Ofertante))
             {
                 throw new OfertanteComoCaroneiroException("Não é permitido o próprio ofertante ocupar vaga na própria carona.");
             }
@@ -249,6 +237,7 @@ namespace ava.carona.app.domains
             this.ValidarBloqueio();
             _vagas.ValidarVagas(LIMITE_MAXIMO_DE_VAGAS, LIMITE_MINIMO_DE_VAGAS);
             ValidarEnderecos();
+            ValidarOfertante();
         }
     }
 }

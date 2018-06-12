@@ -18,7 +18,7 @@ namespace ava.carona.app.repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Colaborador>()
                 .ToTable("colaborador");
 
@@ -44,13 +44,12 @@ namespace ava.carona.app.repositories
             modelBuilder.Entity<CaronaCaroneiro>()
                 .HasOne(pt => pt.Carona)
                 .WithMany(p => p.Caronas)
-                .HasForeignKey(pt => pt.CaroneiroId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .HasForeignKey(pt => pt.CaronaId);
 
-            //modelBuilder.Entity<CaronaCaroneiro>()
-            //    .HasOne(pt => pt.Caroneiro)
-            //    .WithMany(p => p.Caronas)
-            //    .HasForeignKey(pt => pt.CaroneiroId);
+            modelBuilder.Entity<CaronaCaroneiro>()
+                .HasOne(pt => pt.Caroneiro)
+                .WithMany(p => p.Caronas)
+                .HasForeignKey(pt => pt.CaroneiroId);
         }
 
         public void AtivarBaseDeDados()

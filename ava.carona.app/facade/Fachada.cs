@@ -98,6 +98,30 @@ namespace ava.carona.app.facade
             return caronaNegocio.ListarPorOfertante(new Colaborador() { Id = ofertanteId });
         }
 
+        public Carona SolicitarCarona(int id, Colaborador colaborador)
+        {
+            colaborador = colaboradorNegocio.ObterPorId(colaborador.Id);
+            var carona = caronaNegocio.ObterPorId(id);
+            carona.SolicitarCarona(colaborador);
+            return caronaNegocio.Atualizar(carona);
+        }
+
+        public Carona PermitirCarona(int id, Colaborador colaborador)
+        {
+            colaborador = colaboradorNegocio.ObterPorId(colaborador.Id);
+            var carona = caronaNegocio.ObterPorId(id);
+            carona.PermitirCarona(colaborador);
+            return caronaNegocio.Atualizar(carona);
+        }
+
+        public Carona NegarCarona(int id, Colaborador colaborador)
+        {
+            colaborador = colaboradorNegocio.ObterPorId(colaborador.Id);
+            var carona = caronaNegocio.ObterPorId(id);
+            carona.NegarCarona(colaborador);
+            return caronaNegocio.Atualizar(carona);
+        }
+
         #endregion
 
     }

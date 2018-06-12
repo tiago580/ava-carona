@@ -25,6 +25,8 @@ namespace ava.carona.app.repositories
             return context.Caronas
                 .Include(c => c.Enderecos)
                 .Include(c => c.Ofertante)
+                .Include(c => c.Caroneiros)
+                    .ThenInclude(ca => ca.Caroneiro)
                 .AsNoTracking().Where(predicate).ToList();
         }
 
@@ -34,6 +36,8 @@ namespace ava.carona.app.repositories
             return context.Caronas
                 .Include(c => c.Enderecos)
                 .Include(c => c.Ofertante)
+                .Include(c => c.Caroneiros)
+                    .ThenInclude(ca => ca.Caroneiro)
                 .Where(predicate)
                 .FirstOrDefault();
 

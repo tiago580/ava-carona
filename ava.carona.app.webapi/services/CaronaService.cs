@@ -39,7 +39,7 @@ namespace ava.carona.app.webapi.services
 
                 var _carona = fachada.CriarCarona(carona);
 
-                var result = CaronaToDTO(_carona);
+                var result = new CaronaDTO(_carona);
 
                 return CreatedAtRoute("GetCarona", new { id = _carona.Id }, result);
             }
@@ -55,7 +55,7 @@ namespace ava.carona.app.webapi.services
             try
             {
                 var caronas = fachada.ListarCaronas();
-                var result = caronas.Select(c => CaronaToDTO(c)).ToList();
+                var result = caronas.Select(c => new CaronaDTO(c)).ToList();
                 return Ok(result);
             }
             catch (Exception e)
@@ -80,13 +80,56 @@ namespace ava.carona.app.webapi.services
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpPut("solicitar/{id}")]
+        public IActionResult SOlicitar(int id, [FromBody] Colaborador colaborador)
+        {
+            try
+            {
+                var carona = fachada.SolicitarCarona(id, colaborador);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpPut("permitir/{id}")]
+        public IActionResult Permitir(int id, [FromBody] Colaborador colaborador)
+        {
+            try
+            {
+                Carona carona = fachada.PermitirCarona(id, colaborador);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpPut("negar/{id}")]
+        public IActionResult Negar(int id, [FromBody] Colaborador colaborador)
+        {
+            try
+            {
+                Carona carona = fachada.NegarCarona(id, colaborador);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+        }
         [HttpGet("ofertante/{id}")]
         public IActionResult Listar(int id)
         {
             try
             {
                 var caronas = fachada.ListarCaronaPorOfertante(id);
-                var result = caronas.Select(c => CaronaToDTO(c)).ToList();
+                var result = caronas.Select(c => new CaronaDTO(c)).ToList();
                 return Ok(result);
             }
             catch (Exception e)
@@ -102,7 +145,7 @@ namespace ava.carona.app.webapi.services
             try
             {
                 var carona = ObterCarona(id);
-                return Ok(CaronaToDTO(carona));
+                return Ok(new CaronaDTO(carona));
             }
             catch (RegistroNaoEncontradoException e)
             {
@@ -145,16 +188,6 @@ namespace ava.carona.app.webapi.services
         }
 
 
-        private CaronaDTO CaronaToDTO(Carona carona)
-        {
-            var result = Mapper.Map<CaronaDTO>(carona);
-
-            result.Id = carona.Id;
-            result.Origem = Mapper.Map<EnderecoDTO>(carona.ObterEndereco(TipoEndereco.ORIGEM));
-            result.Destino = Mapper.Map<EnderecoDTO>(carona.ObterEndereco(TipoEndereco.DESTINO));
-            result.Ofertante = carona.Ofertante;
-            return result;
-        }
 
 
     }

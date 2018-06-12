@@ -35,6 +35,9 @@ namespace ava.carona.app.facade
         int DeletarCarona(int id);
 
         Carona AtualizarCarona(Carona carona, int id);
+        Carona SolicitarCarona(int id, Colaborador colaborador);
+        Carona PermitirCarona(int id, Colaborador colaborador);
+        Carona NegarCarona(int id, Colaborador colaborador);
 
 
         #endregion

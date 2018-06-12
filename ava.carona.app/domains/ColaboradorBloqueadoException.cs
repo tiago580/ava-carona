@@ -6,7 +6,7 @@ namespace ava.carona.app.domains
 {
     public class ColaboradorBloqueadoException: Exception
     {
-        public override string Message => "Colaborador Bloqueado";
+        //public override string Message => "Colaborador Bloqueado";
         public ColaboradorBloqueadoException(): base()
         {
 
